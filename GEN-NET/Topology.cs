@@ -20,6 +20,12 @@ namespace GEN_NET
 		{
 			get { return adj_M.Length; }
 		}
+
+		int layerCount = 0;
+		public int LayerCount
+		{
+			get { return layerCount; }
+		}
 		//if the matrix isn't verified it may contain back-edges and other nasty stuff
 		bool verified = false;
 		public bool Verified
@@ -32,15 +38,17 @@ namespace GEN_NET
 		}
 
 		//Constructor, creates a new Topology based on the types of the Nodes
-		public Topology(List<NodeType> points)
+		public Topology(List<int> points)
 		{
 			adj_M = new TopologyEntry[points.Count];
 
-			for(int i = 0; i < points.Count; i++)
+			for (int i = 0; i < points.Count; i++)
 			{												//set the type of all the "rows" according to the parameter
 				adj_M[i] = new TopologyEntry();
 				adj_M[i].adj_V = new float[points.Count];
-				adj_M[i].type = points[i];
+				adj_M[i].layer = points[i];
+				if (adj_M[i].layer > layerCount)
+					layerCount = adj_M[i].layer;
 			}
 			verify();										//verify the shit out of it
 		}
@@ -50,15 +58,15 @@ namespace GEN_NET
 		{
 			//we gonna let only 2 types of Connections in the graph
 			//1: inputNode -> hiddenNode, 2: hiddenNode -> outputNode
-			NodeType allowedType;
+			int allowedLayer;
 			TopologyEntry point;
-			for (int i = 0; i < adj_M.Length; i++ )
+			for (int i = 0; i < adj_M.Length; i++)
 			{
 				point = adj_M[i];
 
 				if (point.adj_V.Length != adj_M.Length)
 					throw new ArgumentException("Invalid Topology (adjacency matrix be NxN)");
-				if (point.type == NodeType.Input)
+				if (point.layer == 0)
 				{
 					for (int j = 0; j < point.adj_V.Length; j++)
 					{
@@ -67,20 +75,10 @@ namespace GEN_NET
 				}
 				else
 				{
-					switch (point.type)
-					{
-						case NodeType.Hidden:
-							allowedType = NodeType.Input;	//if its hidden, only -> input inputs allowed
-							break;
-						case NodeType.Output:
-							allowedType = NodeType.Hidden;	//if its output, only -> hidden inputs allowed
-							break;
-						default:
-							return;
-					}
+					allowedLayer = point.layer + 1;
 					for (int j = 0; j < point.adj_V.Length; j++)
 					{
-						if (adj_M[j].type != allowedType)
+						if (adj_M[j].layer != allowedLayer)
 						{
 							point.adj_V[j] = float.NaN;		//delete
 						}
@@ -94,12 +92,13 @@ namespace GEN_NET
 		//Returns the CrossOver of two Topology-s
 		public Topology crossOver(Topology otherParent, CrossOverInfo info)
 		{
-			List<NodeType> points = new List<NodeType>();
-			foreach(TopologyEntry entry in adj_M){
-				points.Add(entry.type);
+			List<int> points = new List<int>();
+			foreach (TopologyEntry entry in adj_M)
+			{
+				points.Add(entry.layer);
 			}
 			Topology ret = new Topology(points);
-			for(int i = 0; i < ret.Count; i++)
+			for (int i = 0; i < ret.Count; i++)
 			{
 				TopologyEntry pEntry1 = adj_M[i], pEntry2 = otherParent.adj_M[i];
 				bool batchChoice = info.Rnd > info.crossOverRatio;
@@ -170,7 +169,7 @@ namespace GEN_NET
 			String ret = "";
 			for (int i = 0; i < Count; i++)
 			{
-				ret += adj_M[i].type.ToString() + "||";
+				ret += adj_M[i].layer + "||";
 				for (int j = 0; j < Count; j++)
 				{
 					ret += " " + adj_M[i].adj_V[j];

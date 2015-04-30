@@ -8,16 +8,26 @@ namespace GEN_NET
 	public class NeuralNet<T> : ICloneable
 	{
 		Topology topology;
-		List<int> inputNodes;
-		List<int> innerNodes;
-		List<int> outputNodes;
-		List<NeuralNode<T>> allNodes;
-		public int Count
+		NeuralLayer<T>[] neuralLayers;
+
+		public int LayerCount
 		{
-			get { return allNodes.Count; }
+			get { return neuralLayers.Length; }
 		}
 
-		public NeuralNet(Topology topology) : this()
+		public int NodeCount
+		{
+			get
+			{
+				int ret = 0;
+				foreach (NeuralLayer<T> layer in neuralLayers)
+					ret += layer.NodeCount;
+				return ret;
+			}
+		}
+
+		public NeuralNet(Topology topology)
+			: this()
 		{
 			this.topology = topology;
 			createFromTopology();
@@ -25,41 +35,47 @@ namespace GEN_NET
 
 		public NeuralNet()
 		{
-			inputNodes = new List<int>();
-			innerNodes = new List<int>();
-			outputNodes = new List<int>();
-			allNodes = new List<NeuralNode<T>>();
+			neuralLayers = new NeuralLayer<T>[0];
 		}
 
-		public void createTopology(List<NodeType> points)
+		//public void createTopology(List<NodeType> points)
+		public void createTopology(List<int> points)
 		{
 			topology = new Topology(points);
 		}
 
 		public void createFromTopology()
 		{
-			allNodes.Clear();
+			neuralLayers = new NeuralLayer<T>[topology.LayerCount];
 			if (!topology.Verified)
 				topology.verify();
 			NeuralNode<T> currentNode;
+			int currentLayer;
 			for (int i = 0; i < topology.Count; i++)
 			{
-				switch (topology.adj_M[i].type)
+				//switch (topology.adj_M[i].type)
+				//{
+				//	case NodeType.Input:
+				//		currentNode = new ConstInputNeuralNode<T>();
+				//		inputNodes.Add(i);
+				//		break;
+				//	case NodeType.Hidden:
+				//		currentNode = new NeuralNode<T>();
+				//		innerNodes.Add(i);
+				//		break;
+				//	case NodeType.Output:
+				//		currentNode = new NeuralNode<T>();
+				//		outputNodes.Add(i);
+				//		break;
+				//	default:
+				//		return;
+				//}
+				//^
+				currentLayer = topology.adj_M[i].layer;
+				
+				if (topology.adj_M[i].layer == 0)
 				{
-					case NodeType.Input:
-						currentNode = new ConstInputNeuralNode<T>();
-						inputNodes.Add(i);
-						break;
-					case NodeType.Hidden:
-						currentNode = new NeuralNode<T>();
-						innerNodes.Add(i);
-						break;
-					case NodeType.Output:
-						currentNode = new NeuralNode<T>();
-						outputNodes.Add(i);
-						break;
-					default:
-						return;
+					currentNode
 				}
 				allNodes.Add(currentNode);
 			}
@@ -145,7 +161,7 @@ namespace GEN_NET
 
 		public void setNodeFunctions(int nodeIdx, NeuralNode<T>.NeuralFunction neuralFunction, NeuralNode<T>.WeigthingFunction weigthingFunction)
 		{
-				allNodes[nodeIdx].setFunctions(neuralFunction, weigthingFunction);
+			allNodes[nodeIdx].setFunctions(neuralFunction, weigthingFunction);
 		}
 
 		public void Randomize(Random rnd, float range, float offset)
