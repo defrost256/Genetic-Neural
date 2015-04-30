@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="GEN_NET.Topology">
+    <Position X="0.5" Y="0.5" Width="2.25" />
+    <AssociationLine Name="adj_M" Type="GEN_NET.TopologyEntry">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-1.909" Y="0.37" Height="0.182" Width="1.689" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAIAAAABAAAAAAAEAAAAAASAAAAAAAAAAAIAAAADABA=</HashCode>
+      <FileName>Topology.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="adj_M" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GEN_NET.NeuralNet&lt;T&gt;">
+    <Position X="3.75" Y="0.5" Width="2.5" />
+    <AssociationLine Name="allNodes" Type="GEN_NET.NeuralNode&lt;T&gt;">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.965" Y="0.151" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>QAAEAQAAAAAAEAAEBAAQAASAEAAAABCgAAAAAAABABA=</HashCode>
+      <FileName>NeuralNet.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="topology" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="allNodes" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GEN_NET.NeuralNode&lt;T&gt;">
+    <Position X="3.75" Y="8" Width="3" />
+    <NestedTypes>
+      <Delegate Name="GEN_NET.NeuralNode&lt;T&gt;.NeuralFunction" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>NeuralNode.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="GEN_NET.NeuralNode&lt;T&gt;.WeigthingFunction" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>NeuralNode.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <AssociationLine Name="InputNodes" Type="GEN_NET.NeuralNode&lt;T&gt;" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="5.125" Y="8" />
+        <Point X="5.125" Y="7.625" />
+        <Point X="3.375" Y="7.625" />
+        <Point X="3.375" Y="8.562" />
+        <Point X="3.75" Y="8.562" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.635" Y="1.005" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAEAAAIAAAACAAEABACAAAAAAAAAII=</HashCode>
+      <FileName>NeuralNode.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="InputNodes" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="GEN_NET.Individual&lt;T&gt;">
+    <Position X="6.5" Y="4.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEBAAAAAAAAAAAAAAAAAgAAAAJAhA=</HashCode>
+      <FileName>Individual.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="neuralNet" />
+    </ShowAsAssociation>
+    <Lollipop Position="1.67" />
+  </Class>
+  <Class Name="GEN_NET.TopologyEntry">
+    <Position X="0.5" Y="4.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAACAAAABAAQAAAAAAAAAABA=</HashCode>
+      <FileName>TopologyEntry.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.1" />
+  </Class>
+  <Class Name="GEN_NET.ConstInputNeuralNode&lt;T&gt;">
+    <Position X="0.5" Y="12.5" Width="2.75" />
+    <InheritanceLine Type="GEN_NET.NeuralNode&lt;T&gt;" FixedToPoint="true">
+      <Path>
+        <Point X="5.25" Y="11.42" />
+        <Point X="5.25" Y="12.119" />
+        <Point X="2.062" Y="12.119" />
+        <Point X="2.062" Y="12.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAEAAAAAAAAAAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>ConstInputNeuralNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GEN_NET.CrossOverInfo">
+    <Position X="8.75" Y="0.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAACIAAAQAABAAAAAAAIAgAABAA=</HashCode>
+      <FileName>CrossOverInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GEN_NET.Population&lt;T, U&gt;">
+    <Position X="12" Y="2.75" Width="3" />
+    <AssociationLine Name="currentGeneration" Type="GEN_NET.Individual&lt;T&gt;">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.482" Y="-0.092" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="nextGeneration" Type="GEN_NET.Individual&lt;T&gt;" FixedFromPoint="true">
+      <Path>
+        <Point X="12" Y="5.375" />
+        <Point X="8.75" Y="5.375" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.454" Y="-0.078" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="info" Type="GEN_NET.CrossOverInfo" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="13.312" Y="2.75" />
+        <Point X="13.312" Y="2.228" />
+        <Point X="10.75" Y="2.228" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>BAAEAAAAAAAAAAAEAKAgAAYCAAAAAAAAQAAAAAAAABA=</HashCode>
+      <FileName>Population.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="info" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="currentGeneration" />
+      <Field Name="nextGeneration" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Enum Name="GEN_NET.NodeType">
+    <Position X="3.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAEAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>TopologyEntry.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
