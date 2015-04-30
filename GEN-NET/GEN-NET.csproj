@@ -61,6 +61,7 @@
     <Compile Include="ConstInputNeuralNode.cs" />
     <Compile Include="CrossOverInfo.cs" />
     <Compile Include="Individual.cs" />
+    <Compile Include="MemoryNode.cs" />
     <Compile Include="NeuralNet.cs" />
     <Compile Include="NeuralNode.cs" />
     <Compile Include="Population.cs" />
