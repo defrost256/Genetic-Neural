@@ -13,8 +13,6 @@ namespace GEN_NET
 		public NeuralFunction neuralFunction;
 		public WeigthingFunction weigthingFunction;
 
-		public List<NeuralNode<T>> InputNodes;
-
 		public List<float> InputWeigths;
 		protected T output;
 		public T Output
@@ -23,16 +21,15 @@ namespace GEN_NET
 		}
 		public NeuralNode()
 		{
-			InputNodes = new List<NeuralNode<T>>();
 			InputWeigths = new List<float>();
 		}
 
-		public virtual void calculateOutput()
+		public virtual void calculateOutput(List<T> inputs)
 		{
-			List<T> inputs = new List<T>();
-			for (int i = 0; i < InputNodes.Count; i++)
+
+			for (int i = 0; i < InputWeigths.Count; i++)
 			{
-				inputs.Add(weigthingFunction(InputNodes[i].Output, InputWeigths[i]));
+				inputs[i] = (weigthingFunction(inputs[i], InputWeigths[i]));
 			}
 			output = neuralFunction(inputs);
 		}
@@ -43,15 +40,9 @@ namespace GEN_NET
 			this.weigthingFunction = weigthingFunction;
 		}
 
-		public override String ToString()
+		public override string ToString()
 		{
-			String ret = "NeuralNode<" + typeof(T).ToString() + ">: inputNodes:(";
-			for (int i = 0; i < InputNodes.Count; i++)
-			{
-				ret = ret + "I" + i + ":" + InputNodes[i].ToString() + "," + InputWeigths[i] + "; ";
-			}
-			ret += ") Output: " + output.ToString();
-			return ret;
+			throw new NotImplementedException();
 		}
 	}
 }

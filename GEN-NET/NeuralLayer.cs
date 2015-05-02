@@ -16,11 +16,41 @@ namespace GEN_NET
 			get { return nodes.Count; }
 		}
 
+		protected bool verified = false;
 		public NeuralLayer()
 		{
 			nodes = new List<NeuralNode<T>>();
 		}
 
+		public void addNode(NeuralNode<T> node)
+		{
+			nodes.Add(node);
+			verified = false;
+		}
 
+		public virtual void calculateOutput()
+		{
+			if (!verified)
+			{
+				outputs = new T[nodes.Count];
+				verified = true;
+			}
+			for (int i = 0; i < nodes.Count; i++)
+			{
+				nodes[i].calculateOutput(inputLayer.outputs.ToList());
+				outputs[i] = nodes[i].Output;
+			}
+		}
+
+		public void setNode(int nodeIdx, NeuralNode<T>.NeuralFunction neuralFunction, NeuralNode<T>.WeigthingFunction weigthingFunction)
+		{
+			if (nodeIdx < NodeCount)
+				nodes[nodeIdx].setFunctions(neuralFunction, weigthingFunction);
+		}
+
+		public override string ToString()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
