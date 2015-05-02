@@ -26,12 +26,12 @@ namespace GEN_NET
 
 		/// <summary>
 		///	Constructor for the Population
-		///	Creates "size" Individuals to the population, and sets them up with the notes specified in "points"
+		///	Creates "size" Individuals to the population, and sets them up with the nodes specified in "points"
 		/// </summary>
 		/// <param name="size">The amount of Individuals in the population</param>
 		/// <param name="seed">The seed of the random number generation</param>
-		/// <param name="points">The NodeType-s of the Individuals</param>
-		public Population(int size, int seed, List<NodeType> points, CrossOverInfo info){
+		/// <param name="points">The layers of nodes of the Individuals</param>
+		public Population(int size, int seed, List<int> points, float weigthRange, float weigthOffset, CrossOverInfo info){
 			try
 			{
 				this.size = size;											//Initialize fields
@@ -43,7 +43,7 @@ namespace GEN_NET
 				{
 					currentIndividual = new T();
 					currentIndividual.createNetwork(points);
-					currentIndividual.randomizeNetwork(rnd);				//New individuals have random genes
+					currentIndividual.randomizeNetwork(rnd, weigthRange, weigthOffset);				//New individuals have random genes
 					currentGeneration.Add(currentIndividual);
 				}
 				#region initCrossoverInfo
@@ -73,7 +73,7 @@ namespace GEN_NET
 		/// </summary>
 		/// <param name="size"></param>
 		/// <param name="points"></param>
-		public Population(int size, List<NodeType> points, CrossOverInfo info) : this(size, DateTime.Now.Millisecond, points, info)
+		public Population(int size, List<int> points, float weigthRange, float weigthOffset, CrossOverInfo info) : this(size, DateTime.Now.Millisecond, points, weigthRange, weigthOffset, info)
 		{
 		}
 
