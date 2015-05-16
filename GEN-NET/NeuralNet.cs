@@ -85,19 +85,20 @@ namespace GEN_NET
 
 		public List<T> calculateOutput(List<T> inputs)
 		{
-			try
-			{
+			//try
+			//{
 				List<T> outputs = new List<T>();
+				(neuralLayers[0] as InputLayer<T>).setInputs(inputs);
 				for (int i = 0; i < neuralLayers.Length; i++)
 				{
 					neuralLayers[i].calculateOutput();
 				}
 				return neuralLayers[neuralLayers.Length - 1].outputs.ToList();
-			}
-			catch (Exception e)
-			{
-				throw new NullReferenceException("Message: " + e.Message + "\nStackTrace: " + e.StackTrace + "\nTargetSite: " + e.TargetSite + "\nSource: " + e.Source);
-			}
+			//}
+			//catch (Exception e)
+			//{
+			//	throw new NullReferenceException("Message: " + e.Message + "\nStackTrace: " + e.StackTrace + "\nTargetSite: " + e.TargetSite + "\nSource: " + e.Source);
+			//}
 		}
 
 		public void setLayerFunctions(int layerIdx, int nodeIdx, NeuralNode<T>.NeuralFunction neuralFunction, NeuralNode<T>.WeigthingFunction weigthingFunction)

@@ -45,7 +45,15 @@ namespace GEN_NET
 		public void setNode(int nodeIdx, NeuralNode<T>.NeuralFunction neuralFunction, NeuralNode<T>.WeigthingFunction weigthingFunction)
 		{
 			if (nodeIdx < NodeCount)
-				nodes[nodeIdx].setFunctions(neuralFunction, weigthingFunction);
+				if (nodeIdx < 0)
+				{
+					foreach (NeuralNode<T> node in nodes)
+					{
+						node.setFunctions(neuralFunction, weigthingFunction);
+					}
+				}
+				else
+					nodes[nodeIdx].setFunctions(neuralFunction, weigthingFunction);
 		}
 
 		public override string ToString()

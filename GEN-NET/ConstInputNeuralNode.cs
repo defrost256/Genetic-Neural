@@ -20,7 +20,7 @@ namespace GEN_NET
 			this.value = value;
 		}
 
-		public override void calculateOutput()
+		public override void calculateOutput(List<T> inputs)
 		{
 			output = value;
 		}

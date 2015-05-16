@@ -33,6 +33,7 @@ namespace GEN_NET
 			}
 			for (int i = 0; i < nodes.Count; i++)
 			{
+				nodes[i].calculateOutput(null);
 				outputs[i] = nodes[i].Output;
 			}
 		}

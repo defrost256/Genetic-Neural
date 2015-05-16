@@ -50,6 +50,7 @@ namespace GEN_NET
 				if (adj_M[i].layer > layerCount)
 					layerCount = adj_M[i].layer;
 			}
+			layerCount++;
 			verify();										//verify the shit out of it
 		}
 
@@ -75,7 +76,7 @@ namespace GEN_NET
 				}
 				else
 				{
-					allowedLayer = point.layer + 1;
+					allowedLayer = point.layer - 1;
 					for (int j = 0; j < point.adj_V.Length; j++)
 					{
 						if (adj_M[j].layer != allowedLayer)
@@ -114,7 +115,7 @@ namespace GEN_NET
 						switch (info.type)
 						{
 							case CrossoverType.AVERAGING:
-								temp = (pEntry1.adj_V[j] * info.crossOverRatio + pEntry2.adj_V[j] * (1 - info.crossOverRatio)) / 2;
+								temp = pEntry1.adj_V[j] * info.crossOverRatio + pEntry2.adj_V[j] * (1 - info.crossOverRatio);
 								break;
 							case CrossoverType.SWAPPING:
 								if (info.Rnd > info.crossOverRatio)
@@ -157,6 +158,8 @@ namespace GEN_NET
 		{
 			Topology ret = new Topology();
 			ret.adj_M = new TopologyEntry[adj_M.Length];
+			ret.verified = verified;
+			ret.layerCount = layerCount;
 			for (int i = 0; i < adj_M.Length; i++)
 			{
 				ret.adj_M[i] = adj_M[i].Clone() as TopologyEntry;
@@ -172,7 +175,10 @@ namespace GEN_NET
 				ret += adj_M[i].layer + "||";
 				for (int j = 0; j < Count; j++)
 				{
-					ret += " " + adj_M[i].adj_V[j];
+					if (float.IsNaN(adj_M[i].adj_V[j]))
+						ret += " N";
+					else
+						ret += " " + adj_M[i].adj_V[j];
 				}
 				ret += " ||\n";
 			}
