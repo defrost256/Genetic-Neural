@@ -19,9 +19,19 @@ namespace GEN_NET
 
 		public override void calculateOutput()
 		{
-			base.calculateOutput();
-			memoryQueue.Enqueue(Output);
-
+			List<T> inputs = new List<T>();
+			for (int i = 0; i < InputNodes.Count; i++)
+			{
+				inputs.Add(weigthingFunction(InputNodes[i].Output, InputWeigths[i]));
+			}
+			for (int i = 0; i < memoryDepth; i++)
+			{
+				inputs.Add(weigthingFunction(memoryQueue.ElementAt(i),i/(float)memoryDepth));
+			}
+			output = neuralFunction(inputs);
+			if (memoryQueue.Count == memoryDepth)
+				memoryQueue.Dequeue();
+			memoryQueue.Enqueue(output);
 		}
 	}
 }
