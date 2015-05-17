@@ -52,6 +52,9 @@ namespace GEN_NET
 
 		public void setNetworkFunctions(int layerIdx, int nodeIdx, NeuralNode<T>.NeuralFunction neuralFunction, NeuralNode<T>.WeigthingFunction weigthingFunction)
 		{
+			if (layerIdx < 0)
+				for (int i = 0; i < neuralNet.LayerCount; i++)
+					neuralNet.setLayerFunctions(i, nodeIdx, neuralFunction, weigthingFunction);
 			neuralNet.setLayerFunctions(layerIdx, nodeIdx, neuralFunction, weigthingFunction);
 		}
 
