@@ -136,8 +136,8 @@
     <Position X="4.5" Y="6.5" Width="1.5" />
     <AssociationLine Name="inputLayer" Type="GEN_NET.NeuralLayer&lt;T&gt;" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="4.5" Y="6.938" />
-        <Point X="4.125" Y="6.938" />
+        <Point X="4.5" Y="6.966" />
+        <Point X="4.125" Y="6.966" />
         <Point X="4.125" Y="6.125" />
         <Point X="5.478" Y="6.125" />
         <Point X="5.478" Y="6.5" />
@@ -147,7 +147,7 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAEAAEAAAAAAAAAAAEAAAAAAsAAAQBIAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAEAAEAAAAAAAEAAAEAAAAAAsAAAQBIAA=</HashCode>
       <FileName>NeuralLayer.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>

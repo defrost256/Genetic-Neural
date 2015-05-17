@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Gen_net_TEST.Critter">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AwQAAAQAAAAEAYAAAACAIAAAAAAAAAAACAQJAQAAAAA=</HashCode>
+      <FileName>Critter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Gen_net_TEST.Game1">
+    <Position X="4.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAEEAAAAAAAwAAAAAAAAAAAAAAAAgAAAAAAAQAAAQ=</HashCode>
+      <FileName>Game1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gen_net_TEST.GeneticEngine">
+    <Position X="6.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAgAAAAAAAAAAAAAAAAAAAAAAAABAAAAAQA=</HashCode>
+      <FileName>GeneticEngine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gen_net_TEST.BoundingCircle">
+    <Position X="9" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAACIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>BoundingCircle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gen_net_TEST.Sensor">
+    <Position X="9.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Sensor.cs</FileName>
+      <NewMemberFileName>sensor.cs</NewMemberFileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gen_net_TEST.Thruster">
+    <Position X="8" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Thruster.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gen_net_TEST.CollisionInfo">
+    <Position X="11.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAABQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CollisionInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gen_net_TEST.CollisionSystem">
+    <Position X="11.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CollisionSystem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Gen_net_TEST.IColliding">
+    <Position X="12" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IColliding.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

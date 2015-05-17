@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace GEN_NET
 {
@@ -12,6 +13,7 @@ namespace GEN_NET
 
 		public NeuralFunction neuralFunction;
 		public WeigthingFunction weigthingFunction;
+		public EventWaitHandle finishedEvent;
 
 		public List<float> InputWeigths;
 		protected T output;
@@ -32,6 +34,12 @@ namespace GEN_NET
 				inputs[i] = (weigthingFunction(inputs[i], InputWeigths[i]));
 			}
 			output = neuralFunction(inputs);
+			finishedEvent.Set();
+		}
+
+		public virtual void calculateOutputCallback(object inputs)
+		{
+			calculateOutput(inputs as List<T>);
 		}
 
 		public virtual void setFunctions(NeuralFunction neuralFunction, WeigthingFunction weigthingFunction)
@@ -43,6 +51,11 @@ namespace GEN_NET
 		public override string ToString()
 		{
 			throw new NotImplementedException();
+		}
+
+		internal void setFinishedEvent(EventWaitHandle ewh)
+		{
+			finishedEvent = ewh;
 		}
 	}
 }

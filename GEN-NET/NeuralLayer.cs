@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace GEN_NET
 {
@@ -10,6 +11,8 @@ namespace GEN_NET
 		public List<NeuralNode<T>> nodes;
 		public T[] outputs;
 		public NeuralLayer<T> inputLayer;
+
+		public EventWaitHandle finished = new AutoResetEvent(false);
 
 		public int NodeCount
 		{
@@ -24,6 +27,7 @@ namespace GEN_NET
 
 		public void addNode(NeuralNode<T> node)
 		{
+			node.setFinishedEvent(finished);
 			nodes.Add(node);
 			verified = false;
 		}
@@ -35,11 +39,17 @@ namespace GEN_NET
 				outputs = new T[nodes.Count];
 				verified = true;
 			}
-			for (int i = 0; i < nodes.Count; i++)
+			List<T> inputs = inputLayer.outputs.ToList();
+			int i;
+			for (i = 0; i < nodes.Count; i++)
+				ThreadPool.QueueUserWorkItem(new WaitCallback(nodes[i].calculateOutputCallback), new List<T>(inputs));
+			for (i = 0; i < nodes.Count; i++)
 			{
-				nodes[i].calculateOutput(inputLayer.outputs.ToList());
-				outputs[i] = nodes[i].Output;
+				finished.WaitOne(1000);
+				Console.WriteLine(i);
 			}
+			for (i = 0; i < nodes.Count; i++)
+				outputs[i] = nodes[i].Output;
 		}
 
 		public void setNode(int nodeIdx, NeuralNode<T>.NeuralFunction neuralFunction, NeuralNode<T>.WeigthingFunction weigthingFunction)
