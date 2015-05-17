@@ -9,7 +9,7 @@ namespace GEN_NET
 	{
 		public float[] adj_V;
 
-		public NodeType type;
+		public int layer;
 
 		public void Randomize(Random rnd, float range, float offset)
 		{
@@ -22,7 +22,7 @@ namespace GEN_NET
 		public object Clone()
 		{
 			TopologyEntry ret = new TopologyEntry();
-			ret.type = type;
+			ret.layer = layer;
 			ret.adj_V = new float[adj_V.Length];
 			for (int i = 0; i < adj_V.Length; i++)
 			{
@@ -30,12 +30,5 @@ namespace GEN_NET
 			}
 			return ret;
 		}
-	}
-
-	public enum NodeType
-	{
-		Input,
-		Output,
-		Hidden,
 	}
 }

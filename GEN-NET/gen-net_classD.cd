@@ -8,7 +8,7 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAIAAAABAAAAAAAEAAAAAASAAAAAAAAAAAIAAAADABA=</HashCode>
+      <HashCode>AAIAAAABAABAAAAEQAAAAASAAAAAAAAAAAIAAAADABA=</HashCode>
       <FileName>Topology.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -18,25 +18,29 @@
   </Class>
   <Class Name="GEN_NET.NeuralNet&lt;T&gt;">
     <Position X="3.75" Y="0.5" Width="2.5" />
-    <AssociationLine Name="allNodes" Type="GEN_NET.NeuralNode&lt;T&gt;">
+    <AssociationLine Name="neuralLayers" Type="GEN_NET.NeuralLayer&lt;T&gt;" FixedFromPoint="true">
+      <Path>
+        <Point X="5.75" Y="3.978" />
+        <Point X="5.75" Y="6.5" />
+      </Path>
       <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-1.965" Y="0.151" />
+        <Position X="0.055" Y="0.556" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>QAAEAQAAAAAAEAAEBAAQAASAEAAAABCgAAAAAAABABA=</HashCode>
+      <HashCode>AAAAAQAAAABAEAAEAABQAACAAAAEABAgAAAAAAABCBA=</HashCode>
       <FileName>NeuralNet.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="topology" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
-      <Field Name="allNodes" />
+      <Field Name="neuralLayers" />
     </ShowAsCollectionAssociation>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="GEN_NET.NeuralNode&lt;T&gt;">
-    <Position X="3.75" Y="8" Width="3" />
+    <Position X="0.5" Y="7.25" Width="3" />
     <NestedTypes>
       <Delegate Name="GEN_NET.NeuralNode&lt;T&gt;.NeuralFunction" Collapsed="true">
         <TypeIdentifier>
@@ -49,30 +53,15 @@
         </TypeIdentifier>
       </Delegate>
     </NestedTypes>
-    <AssociationLine Name="InputNodes" Type="GEN_NET.NeuralNode&lt;T&gt;" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="5.125" Y="8" />
-        <Point X="5.125" Y="7.625" />
-        <Point X="3.375" Y="7.625" />
-        <Point X="3.375" Y="8.562" />
-        <Point X="3.75" Y="8.562" />
-      </Path>
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-1.635" Y="1.005" />
-      </MemberNameLabel>
-    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAEAAEAAAIAAAACAAEABACAAAAAAAAAII=</HashCode>
+      <HashCode>AAAAAAAAAAAAEAAEAAAIAAAACAAEAAACAAAAAAAAAII=</HashCode>
       <FileName>NeuralNode.cs</FileName>
     </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Field Name="InputNodes" />
-    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="GEN_NET.Individual&lt;T&gt;">
     <Position X="6.5" Y="4.75" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAEBAAAAAAAAAAAAAAAAAgAAAAJAhA=</HashCode>
+      <HashCode>AAAAAAAAAAAAEAAEBAAAAAAAAAAAAAEAAAgAAAAJAhA=</HashCode>
       <FileName>Individual.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -83,7 +72,7 @@
   <Class Name="GEN_NET.TopologyEntry">
     <Position X="0.5" Y="4.75" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAACAAAABAAQAAAAAAAAAABA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAACAAAAAAAQAAAAABAAAABA=</HashCode>
       <FileName>TopologyEntry.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.1" />
@@ -92,10 +81,8 @@
     <Position X="0.5" Y="12.5" Width="2.75" />
     <InheritanceLine Type="GEN_NET.NeuralNode&lt;T&gt;" FixedToPoint="true">
       <Path>
-        <Point X="5.25" Y="11.42" />
-        <Point X="5.25" Y="12.119" />
-        <Point X="2.062" Y="12.119" />
-        <Point X="2.062" Y="12.5" />
+        <Point X="2" Y="10.67" />
+        <Point X="2" Y="12.5" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -119,8 +106,8 @@
     </AssociationLine>
     <AssociationLine Name="nextGeneration" Type="GEN_NET.Individual&lt;T&gt;" FixedFromPoint="true">
       <Path>
-        <Point X="12" Y="5.375" />
-        <Point X="8.75" Y="5.375" />
+        <Point X="12" Y="5.625" />
+        <Point X="8.75" Y="5.625" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="0.454" Y="-0.078" />
@@ -145,12 +132,37 @@
       <Field Name="nextGeneration" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Enum Name="GEN_NET.NodeType">
-    <Position X="3.75" Y="5.25" Width="1.5" />
+  <Class Name="GEN_NET.NeuralLayer&lt;T&gt;">
+    <Position X="4.5" Y="6.5" Width="1.5" />
+    <AssociationLine Name="inputLayer" Type="GEN_NET.NeuralLayer&lt;T&gt;" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.5" Y="6.938" />
+        <Point X="4.125" Y="6.938" />
+        <Point X="4.125" Y="6.125" />
+        <Point X="5.478" Y="6.125" />
+        <Point X="5.478" Y="6.5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.165" Y="0.267" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAEAAAAAAAAAAAAAAEAAA=</HashCode>
-      <FileName>TopologyEntry.cs</FileName>
+      <HashCode>AAAAAAAAAAAAEAAEAAAAAAAAAAAEAAAAAAsAAAQBIAA=</HashCode>
+      <FileName>NeuralLayer.cs</FileName>
     </TypeIdentifier>
-  </Enum>
+    <ShowAsAssociation>
+      <Field Name="inputLayer" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="nodes" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="GEN_NET.InputLayer&lt;T&gt;">
+    <Position X="4.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>InputLayer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

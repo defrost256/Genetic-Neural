@@ -8,16 +8,26 @@ namespace GEN_NET
 	public class NeuralNet<T> : ICloneable
 	{
 		Topology topology;
-		List<int> inputNodes;
-		List<int> innerNodes;
-		List<int> outputNodes;
-		List<NeuralNode<T>> allNodes;
-		public int Count
+		NeuralLayer<T>[] neuralLayers;
+
+		public int LayerCount
 		{
-			get { return allNodes.Count; }
+			get { return neuralLayers.Length; }
 		}
 
-		public NeuralNet(Topology topology) : this()
+		public int NodeCount
+		{
+			get
+			{
+				int ret = 0;
+				foreach (NeuralLayer<T> layer in neuralLayers)
+					ret += layer.NodeCount;
+				return ret;
+			}
+		}
+
+		public NeuralNet(Topology topology)
+			: this()
 		{
 			this.topology = topology;
 			createFromTopology();
@@ -25,127 +35,76 @@ namespace GEN_NET
 
 		public NeuralNet()
 		{
-			inputNodes = new List<int>();
-			innerNodes = new List<int>();
-			outputNodes = new List<int>();
-			allNodes = new List<NeuralNode<T>>();
+			neuralLayers = new NeuralLayer<T>[0];
 		}
 
-		public void createTopology(List<NodeType> points)
+		//public void createTopology(List<NodeType> points)
+		public void createTopology(List<int> points)
 		{
 			topology = new Topology(points);
 		}
 
 		public void createFromTopology()
 		{
-			allNodes.Clear();
+			neuralLayers = new NeuralLayer<T>[topology.LayerCount];
 			if (!topology.Verified)
 				topology.verify();
 			NeuralNode<T> currentNode;
+			TopologyEntry currentEntry;
+			int currentLayer;
 			for (int i = 0; i < topology.Count; i++)
 			{
-				switch (topology.adj_M[i].type)
-				{
-					case NodeType.Input:
-						currentNode = new ConstInputNeuralNode<T>();
-						inputNodes.Add(i);
-						break;
-					case NodeType.Hidden:
-						currentNode = new NeuralNode<T>();
-						innerNodes.Add(i);
-						break;
-					case NodeType.Output:
-						currentNode = new NeuralNode<T>();
-						outputNodes.Add(i);
-						break;
-					default:
-						return;
-				}
-				allNodes.Add(currentNode);
-			}
-			TopologyEntry currentEntry;
-			foreach (int i in outputNodes)
-			{
 				currentEntry = topology.adj_M[i];
-				for (int j = 0; j < currentEntry.adj_V.Length; j++)
+				currentLayer = currentEntry.layer;
+				if(neuralLayers[currentLayer] == null)
 				{
-					if (!float.IsNaN(currentEntry.adj_V[j]))
+					if(currentLayer == 0)
+						neuralLayers[currentLayer] = new InputLayer<T>();
+					else
+						neuralLayers[currentLayer] = new NeuralLayer<T>();
+				}
+				
+				if (topology.adj_M[i].layer == 0)
+					currentNode = new ConstInputNeuralNode<T>();
+				else
+				{
+					currentNode = new NeuralNode<T>();
+					foreach (float w in currentEntry.adj_V)
 					{
-						allNodes[i].InputNodes.Add(allNodes[j]);
-						allNodes[i].InputWeigths.Add(currentEntry.adj_V[j]);
+						if(!float.IsNaN(w))
+							currentNode.InputWeigths.Add(w);
 					}
 				}
+				neuralLayers[currentLayer].addNode(currentNode);
 			}
-			foreach (int i in innerNodes)
+			for (int i = 1; i < topology.LayerCount; i++)
 			{
-				currentEntry = topology.adj_M[i];
-				for (int j = 0; j < currentEntry.adj_V.Length; j++)
-				{
-					if (!float.IsNaN(currentEntry.adj_V[j]))
-					{
-						allNodes[i].InputNodes.Add(allNodes[j]);
-						allNodes[i].InputWeigths.Add(currentEntry.adj_V[j]);
-					}
-				}
-			}
+				neuralLayers[i].inputLayer = neuralLayers[i - 1];
+			}			
 		}
 
 		public List<T> calculateOutput(List<T> inputs)
 		{
-			try
-			{
-				ConstInputNeuralNode<T> inputNode;
+			//try
+			//{
 				List<T> outputs = new List<T>();
-				int j = 0;
-				foreach (int i in inputNodes)
+				(neuralLayers[0] as InputLayer<T>).setInputs(inputs);
+				for (int i = 0; i < neuralLayers.Length; i++)
 				{
-					inputNode = allNodes[i] as ConstInputNeuralNode<T>;
-					inputNode.value = inputs[j++];
-					inputNode.calculateOutput();
+					neuralLayers[i].calculateOutput();
 				}
-				foreach (int i in innerNodes)
-				{
-					allNodes[i].calculateOutput();
-				}
-				foreach (int i in outputNodes)
-				{
-					allNodes[i].calculateOutput();
-					outputs.Add(allNodes[i].Output);
-				}
-				return outputs;
-			}
-			catch (Exception e)
-			{
-				throw new NullReferenceException("Message: " + e.Message + "\nStackTrace: " + e.StackTrace + "\nTargetSite: " + e.TargetSite + "\nSource: " + e.Source);
-			}
+				return neuralLayers[neuralLayers.Length - 1].outputs.ToList();
+			//}
+			//catch (Exception e)
+			//{
+			//	throw new NullReferenceException("Message: " + e.Message + "\nStackTrace: " + e.StackTrace + "\nTargetSite: " + e.TargetSite + "\nSource: " + e.Source);
+			//}
 		}
 
-		public void adjustWeigths()
+		public void setLayerFunctions(int layerIdx, int nodeIdx, NeuralNode<T>.NeuralFunction neuralFunction, NeuralNode<T>.WeigthingFunction weigthingFunction)
 		{
-			if (!topology.Verified)
-			{
-				createFromTopology();
-				return;
-			}
-			TopologyEntry currentEntry;
-			NeuralNode<T> currentNode;
-			for (int i = 0; i < topology.Count; i++)
-			{
-				currentEntry = topology.adj_M[i];
-				currentNode = allNodes[i];
-				for (int j = 0, k = 0; j < topology.Count; j++)
-				{
-					if (!float.IsNaN(currentEntry.adj_V[j]))
-					{
-						currentNode.InputWeigths[k] = currentEntry.adj_V[j];
-					}
-				}
-			}
-		}
-
-		public void setNodeFunctions(int nodeIdx, NeuralNode<T>.NeuralFunction neuralFunction, NeuralNode<T>.WeigthingFunction weigthingFunction)
-		{
-				allNodes[nodeIdx].setFunctions(neuralFunction, weigthingFunction);
+			if (layerIdx < LayerCount)
+				neuralLayers[layerIdx].setNode(nodeIdx, neuralFunction, weigthingFunction);
 		}
 
 		public void Randomize(Random rnd, float range, float offset)
@@ -165,15 +124,9 @@ namespace GEN_NET
 			return new NeuralNet<T>(topology.Clone() as Topology);
 		}
 
-		public override String ToString()
+		public override string ToString()
 		{
-			String ret = "NeuralNet<" + typeof(T) + "> \n\tNodes: ";
-			foreach (int i in outputNodes)
-			{
-				ret += "Out" + i + ":" + allNodes[i].ToString() + "\n\t";
-			}
-			ret += "\n\tTopology: " + topology.ToString();
-			return ret;
+			throw new NotImplementedException();
 		}
 
 		public string writeTopology()

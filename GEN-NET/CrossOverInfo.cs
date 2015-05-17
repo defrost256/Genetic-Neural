@@ -16,8 +16,8 @@ namespace GEN_NET
 			get 
 			{
 				if (rnd == null)
-					throw new NullReferenceException("No random in crossOverInfo");
-				return (float)rnd.NextDouble(); 
+					return float.NaN;
+				return (float)rnd.NextDouble();
 			}
 		}
 		public float crossOverRatio;

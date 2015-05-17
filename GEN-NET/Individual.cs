@@ -8,7 +8,7 @@ namespace GEN_NET
 	public class Individual<T> : ICloneable
 	{
 
-		protected NeuralNet<T> neuralNet;
+		NeuralNet<T> neuralNet;
 		public NeuralNet<T> NeuralNet
 		{
 			get { return neuralNet.Clone() as NeuralNet<T>; }
@@ -24,25 +24,38 @@ namespace GEN_NET
 			this.neuralNet = neuralNet;
 		}
 
-		public virtual void createNetwork(List<NodeType> nodes)
+		public void createNetwork(List<int> nodes)
 		{
 			neuralNet.createTopology(nodes);
 		}
 
-		public virtual void randomizeNetwork(Random rnd)
+		public void randomizeNetwork(Random rnd, float range, float offset)
 		{
-			neuralNet.Randomize(rnd, 1.0f, 0f);
+			neuralNet.Randomize(rnd, range, offset);
 		}
 
-		public virtual Individual<T> crossOver(Individual<T> otherParent, CrossOverInfo info)
+		public Individual<T> crossOver(Individual<T> otherParent, CrossOverInfo info)
 		{
 			NeuralNet<T> childNet = neuralNet.crossOver(otherParent.neuralNet, info);
 			return new Individual<T>(childNet);
 		}
 
+		public List<T> calculateOutput(List<T> inputs)
+		{
+			return neuralNet.calculateOutput(inputs);
+		}
+
 		public virtual object Clone()
 		{
 			return new Individual<T>(neuralNet.Clone() as NeuralNet<T>);
+		}
+
+		public void setNetworkFunctions(int layerIdx, int nodeIdx, NeuralNode<T>.NeuralFunction neuralFunction, NeuralNode<T>.WeigthingFunction weigthingFunction)
+		{
+			if (layerIdx < 0)
+				for (int i = 0; i < neuralNet.LayerCount; i++)
+					neuralNet.setLayerFunctions(i, nodeIdx, neuralFunction, weigthingFunction);
+			neuralNet.setLayerFunctions(layerIdx, nodeIdx, neuralFunction, weigthingFunction);
 		}
 
 		public override string ToString()
