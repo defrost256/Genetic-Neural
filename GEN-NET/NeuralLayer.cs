@@ -44,11 +44,6 @@ namespace GEN_NET
 			for (i = 0; i < nodes.Count; i++)
 				ThreadPool.QueueUserWorkItem(new WaitCallback(nodes[i].calculateOutputCallback), new List<T>(inputs));
 			for (i = 0; i < nodes.Count; i++)
-			{
-				finished.WaitOne(1000);
-				Console.WriteLine(i);
-			}
-			for (i = 0; i < nodes.Count; i++)
 				outputs[i] = nodes[i].Output;
 		}
 

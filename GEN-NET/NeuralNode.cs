@@ -17,9 +17,17 @@ namespace GEN_NET
 
 		public List<float> InputWeigths;
 		protected T output;
+		protected object lockObject = new object();
 		public T Output
 		{
-			get { return output; }
+			get 
+			{
+				lock (lockObject)
+				{
+					Console.WriteLine("Lock1 " + lockObject.GetHashCode() + " owned by Thread " + Thread.CurrentThread.ManagedThreadId);
+					return output;
+				}
+			}
 		}
 		public NeuralNode()
 		{
@@ -28,18 +36,22 @@ namespace GEN_NET
 
 		public virtual void calculateOutput(List<T> inputs)
 		{
-
-			for (int i = 0; i < InputWeigths.Count; i++)
+			lock (lockObject)
 			{
-				inputs[i] = (weigthingFunction(inputs[i], InputWeigths[i]));
+				Console.WriteLine("Lock2 " + lockObject.ToString() + " owned by Thread " + Thread.CurrentThread.ManagedThreadId);
+				for (int i = 0; i < InputWeigths.Count; i++)
+				{
+					inputs[i] = (weigthingFunction(inputs[i], InputWeigths[i]));
+				}
+				output = neuralFunction(inputs);
 			}
-			output = neuralFunction(inputs);
-			finishedEvent.Set();
 		}
 
 		public virtual void calculateOutputCallback(object inputs)
 		{
+			Console.WriteLine("Thread " + Thread.CurrentThread.ManagedThreadId + "start");
 			calculateOutput(inputs as List<T>);
+			Console.WriteLine("Thread " + Thread.CurrentThread.ManagedThreadId + "end");
 		}
 
 		public virtual void setFunctions(NeuralFunction neuralFunction, WeigthingFunction weigthingFunction)

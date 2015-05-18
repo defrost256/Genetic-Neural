@@ -131,8 +131,10 @@ namespace GEN_NET
 			for (int i = 0; i < LayerCount; i++)
 			{
 				ret.neuralLayers[i] = neuralLayers[i].Clone() as NeuralLayer<T>;
+				if (i > 0)
+					ret.neuralLayers[i].inputLayer = ret.neuralLayers[i - 1];
 			}
-				return ret;
+			return ret;
 		}
 
 		public override string ToString()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace GEN_NET
 {
@@ -19,19 +20,22 @@ namespace GEN_NET
 
 		public override void calculateOutput(List<T> inputs)
 		{
-
-			for (int i = 0; i < inputs.Count; i++)
+			lock (lockObject)
 			{
-				inputs[i] = (weigthingFunction(inputs[i], InputWeigths[i]));
+				Console.WriteLine("Lock2 " + lockObject.GetHashCode() + " owned by Thread " + Thread.CurrentThread.ManagedThreadId);
+				for (int i = 0; i < inputs.Count; i++)
+				{
+					inputs[i] = (weigthingFunction(inputs[i], InputWeigths[i]));
+				}
+				for (int i = 0; i < memoryQueue.Count; i++)
+				{
+					inputs.Add(weigthingFunction(memoryQueue.ElementAt(i), (memoryDepth - i - 1) / (float)memoryDepth));
+				}
+				output = neuralFunction(inputs);
+				if (memoryQueue.Count == memoryDepth)
+					memoryQueue.Dequeue();
+				memoryQueue.Enqueue(output);
 			}
-			for (int i = 0; i < memoryQueue.Count; i++)
-			{
-				inputs.Add(weigthingFunction(memoryQueue.ElementAt(i),(memoryDepth - i - 1)/(float)memoryDepth));
-			}
-			output = neuralFunction(inputs);
-			if (memoryQueue.Count == memoryDepth)
-				memoryQueue.Dequeue();
-			memoryQueue.Enqueue(output);
 		}
 
 		public override string ToString()

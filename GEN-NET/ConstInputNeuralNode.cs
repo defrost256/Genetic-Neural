@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace GEN_NET
 {
@@ -22,7 +23,11 @@ namespace GEN_NET
 
 		public override void calculateOutput(List<T> inputs)
 		{
-			output = value;
+			lock (lockObject)
+			{
+				Console.WriteLine("Lock2 " + lockObject.GetHashCode() + " owned by Thread " + Thread.CurrentThread.ManagedThreadId);
+				output = value;
+			}
 		}
 
 		public override String ToString()
