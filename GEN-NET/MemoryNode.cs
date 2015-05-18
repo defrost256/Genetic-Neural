@@ -26,7 +26,7 @@ namespace GEN_NET
 			}
 			for (int i = 0; i < memoryQueue.Count; i++)
 			{
-				inputs.Add(weigthingFunction(memoryQueue.ElementAt(i),(memoryDepth - i)/(float)memoryDepth));
+				inputs.Add(weigthingFunction(memoryQueue.ElementAt(i),(memoryDepth - i - 1)/(float)memoryDepth));
 			}
 			output = neuralFunction(inputs);
 			if (memoryQueue.Count == memoryDepth)
