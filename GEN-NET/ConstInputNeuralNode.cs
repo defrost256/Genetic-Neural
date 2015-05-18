@@ -27,7 +27,7 @@ namespace GEN_NET
 
 		public override String ToString()
 		{
-			return "ConstInputNode<" + typeof(T) + "> Value: " + value.ToString();
+			return "Output: " + value.ToString();
 		}
 	}
 }

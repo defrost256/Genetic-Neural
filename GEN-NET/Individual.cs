@@ -24,9 +24,9 @@ namespace GEN_NET
 			this.neuralNet = neuralNet;
 		}
 
-		public void createNetwork(List<int> nodes)
+		public void createNetwork(List<int> nodes, List<int> memoryDepths)
 		{
-			neuralNet.createTopology(nodes);
+			neuralNet.createTopology(nodes, memoryDepths);
 		}
 
 		public void randomizeNetwork(Random rnd, float range, float offset)
@@ -52,9 +52,6 @@ namespace GEN_NET
 
 		public void setNetworkFunctions(int layerIdx, int nodeIdx, NeuralNode<T>.NeuralFunction neuralFunction, NeuralNode<T>.WeigthingFunction weigthingFunction)
 		{
-			if (layerIdx < 0)
-				for (int i = 0; i < neuralNet.LayerCount; i++)
-					neuralNet.setLayerFunctions(i, nodeIdx, neuralFunction, weigthingFunction);
 			neuralNet.setLayerFunctions(layerIdx, nodeIdx, neuralFunction, weigthingFunction);
 		}
 

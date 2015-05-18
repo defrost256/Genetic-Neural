@@ -17,14 +17,14 @@ namespace GEN_NET
 			this.memoryDepth = memoryDepth;
 		}
 
-		public override void calculateOutput()
+		public override void calculateOutput(List<T> inputs)
 		{
-			List<T> inputs = new List<T>();
-			for (int i = 0; i < InputNodes.Count; i++)
+
+			for (int i = 0; i < inputs.Count; i++)
 			{
-				inputs.Add(weigthingFunction(InputNodes[i].Output, InputWeigths[i]));
+				inputs[i] = (weigthingFunction(inputs[i], InputWeigths[i]));
 			}
-			for (int i = 0; i < memoryDepth; i++)
+			for (int i = 0; i < memoryQueue.Count; i++)
 			{
 				inputs.Add(weigthingFunction(memoryQueue.ElementAt(i),(memoryDepth - i)/(float)memoryDepth));
 			}
@@ -32,6 +32,30 @@ namespace GEN_NET
 			if (memoryQueue.Count == memoryDepth)
 				memoryQueue.Dequeue();
 			memoryQueue.Enqueue(output);
+		}
+
+		public override string ToString()
+		{
+			string ret = base.ToString() + " Memory: {";
+			foreach (T t in memoryQueue)
+			{
+				ret += " " + t.ToString();
+			}
+			return ret + " }";
+		}
+
+		public override object Clone()
+		{
+			var ret = new MemoryNode<T>(memoryDepth);
+			foreach (T t in memoryQueue)
+			{
+				ret.memoryQueue.Enqueue(t);
+			}
+			ret.neuralFunction = neuralFunction;
+			ret.weigthingFunction = weigthingFunction;
+			ret.InputWeigths = InputWeigths.ToList();
+			ret.output = output;
+			return ret;
 		}
 	}
 }
