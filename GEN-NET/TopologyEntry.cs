@@ -10,6 +10,7 @@ namespace GEN_NET
 		public float[] adj_V;
 
 		public int layer;
+		public int memoryDepth;
 
 		public void Randomize(Random rnd, float range, float offset)
 		{
@@ -24,6 +25,7 @@ namespace GEN_NET
 			TopologyEntry ret = new TopologyEntry();
 			ret.layer = layer;
 			ret.adj_V = new float[adj_V.Length];
+			ret.memoryDepth = memoryDepth;
 			for (int i = 0; i < adj_V.Length; i++)
 			{
 				ret.adj_V[i] = adj_V[i];

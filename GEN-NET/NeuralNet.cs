@@ -39,9 +39,9 @@ namespace GEN_NET
 		}
 
 		//public void createTopology(List<NodeType> points)
-		public void createTopology(List<int> points)
+		public void createTopology(List<int> points, List<int> memoryDepths)
 		{
-			topology = new Topology(points);
+			topology = new Topology(points, memoryDepths);
 		}
 
 		public void createFromTopology()
@@ -68,7 +68,10 @@ namespace GEN_NET
 					currentNode = new ConstInputNeuralNode<T>();
 				else
 				{
-					currentNode = new NeuralNode<T>();
+					if (topology.adj_M[i].memoryDepth > 0)
+						currentNode = new MemoryNode<T>(topology.adj_M[i].memoryDepth);
+					else	
+						currentNode = new NeuralNode<T>();
 					foreach (float w in currentEntry.adj_V)
 					{
 						if(!float.IsNaN(w))
@@ -87,7 +90,6 @@ namespace GEN_NET
 		{
 			//try
 			//{
-				List<T> outputs = new List<T>();
 				(neuralLayers[0] as InputLayer<T>).setInputs(inputs);
 				for (int i = 0; i < neuralLayers.Length; i++)
 				{
@@ -103,8 +105,12 @@ namespace GEN_NET
 
 		public void setLayerFunctions(int layerIdx, int nodeIdx, NeuralNode<T>.NeuralFunction neuralFunction, NeuralNode<T>.WeigthingFunction weigthingFunction)
 		{
-			if (layerIdx < LayerCount)
+			if (layerIdx < 0)
+				foreach (NeuralLayer<T> layer in neuralLayers)
+					layer.setNode(nodeIdx, neuralFunction, weigthingFunction);
+			else if (layerIdx < LayerCount)
 				neuralLayers[layerIdx].setNode(nodeIdx, neuralFunction, weigthingFunction);
+			else throw new IndexOutOfRangeException();
 		}
 
 		public void Randomize(Random rnd, float range, float offset)
@@ -121,7 +127,12 @@ namespace GEN_NET
 
 		public object Clone()
 		{
-			return new NeuralNet<T>(topology.Clone() as Topology);
+			var ret = new NeuralNet<T>(topology.Clone() as Topology);
+			for (int i = 0; i < LayerCount; i++)
+			{
+				ret.neuralLayers[i] = neuralLayers[i].Clone() as NeuralLayer<T>;
+			}
+				return ret;
 		}
 
 		public override string ToString()
@@ -132,6 +143,19 @@ namespace GEN_NET
 		public string writeTopology()
 		{
 			return topology.ToString();
+		}
+
+		public string writeNodes()
+		{
+			string ret = "";
+			for (int i = 0; i < neuralLayers.Length; i++)
+			{
+				for (int j = 0; j < neuralLayers[i].NodeCount; j++)
+				{
+					ret += "Layer " + i + " Node " + j + " " + neuralLayers[i].nodes[j].ToString() + "\n";
+				}
+			}
+			return ret;
 		}
 	}
 }

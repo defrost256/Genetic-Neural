@@ -38,7 +38,7 @@ namespace GEN_NET
 		}
 
 		//Constructor, creates a new Topology based on the types of the Nodes
-		public Topology(List<int> points)
+		public Topology(List<int> points, List<int> memoryDepths)
 		{
 			adj_M = new TopologyEntry[points.Count];
 
@@ -47,6 +47,9 @@ namespace GEN_NET
 				adj_M[i] = new TopologyEntry();
 				adj_M[i].adj_V = new float[points.Count];
 				adj_M[i].layer = points[i];
+				if (i < memoryDepths.Count)
+					adj_M[i].memoryDepth = memoryDepths[i];
+				else adj_M[i].memoryDepth = 0;
 				if (adj_M[i].layer > layerCount)
 					layerCount = adj_M[i].layer;
 			}
@@ -94,11 +97,13 @@ namespace GEN_NET
 		public Topology crossOver(Topology otherParent, CrossOverInfo info)
 		{
 			List<int> points = new List<int>();
+			List<int> memoryDepths = new List<int>();
 			foreach (TopologyEntry entry in adj_M)
 			{
 				points.Add(entry.layer);
+				memoryDepths.Add(entry.memoryDepth);
 			}
-			Topology ret = new Topology(points);
+			Topology ret = new Topology(points, memoryDepths);
 			for (int i = 0; i < ret.Count; i++)
 			{
 				TopologyEntry pEntry1 = adj_M[i], pEntry2 = otherParent.adj_M[i];
@@ -172,7 +177,7 @@ namespace GEN_NET
 			String ret = "";
 			for (int i = 0; i < Count; i++)
 			{
-				ret += adj_M[i].layer + "||";
+				ret += adj_M[i].layer + "|" + adj_M[i].memoryDepth +"||";
 				for (int j = 0; j < Count; j++)
 				{
 					if (float.IsNaN(adj_M[i].adj_V[j]))

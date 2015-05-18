@@ -31,7 +31,7 @@ namespace GEN_NET
 		/// <param name="size">The amount of Individuals in the population</param>
 		/// <param name="seed">The seed of the random number generation</param>
 		/// <param name="points">The layers of nodes of the Individuals</param>
-		public Population(int size, int seed, List<int> points, float weigthRange, float weigthOffset, CrossOverInfo info){
+		public Population(int size, int seed, List<int> points, List<int> memoryDepths, float weigthRange, float weigthOffset, CrossOverInfo info){
 			try
 			{
 				this.size = size;											//Initialize fields
@@ -42,7 +42,7 @@ namespace GEN_NET
 				for (int i = 0; i <	size; i++)								//Create Individuals, and add them to the current generation
 				{
 					currentIndividual = new T();
-					currentIndividual.createNetwork(points);
+					currentIndividual.createNetwork(points, memoryDepths);
 					currentIndividual.randomizeNetwork(rnd, weigthRange, weigthOffset);				//New individuals have random genes
 					currentGeneration.Add(currentIndividual);
 				}
@@ -73,7 +73,7 @@ namespace GEN_NET
 		/// </summary>
 		/// <param name="size"></param>
 		/// <param name="points"></param>
-		public Population(int size, List<int> points, float weigthRange, float weigthOffset, CrossOverInfo info) : this(size, DateTime.Now.Millisecond, points, weigthRange, weigthOffset, info)
+		public Population(int size, List<int> points, List<int> memoryDepths, float weigthRange, float weigthOffset, CrossOverInfo info) : this(size, DateTime.Now.Millisecond, points, memoryDepths, weigthRange, weigthOffset, info)
 		{
 		}
 

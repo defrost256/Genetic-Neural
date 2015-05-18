@@ -24,9 +24,9 @@ namespace GEN_NET
 			this.neuralNet = neuralNet;
 		}
 
-		public void createNetwork(List<int> nodes)
+		public void createNetwork(List<int> nodes, List<int> memoryDepths)
 		{
-			neuralNet.createTopology(nodes);
+			neuralNet.createTopology(nodes, memoryDepths);
 		}
 
 		public void randomizeNetwork(Random rnd, float range, float offset)

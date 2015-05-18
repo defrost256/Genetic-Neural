@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace GEN_NET
 {
-	public class NeuralLayer<T>
+	public class NeuralLayer<T> : ICloneable
 	{
 		public List<NeuralNode<T>> nodes;
 		public T[] outputs;
@@ -69,6 +69,18 @@ namespace GEN_NET
 		public override string ToString()
 		{
 			throw new NotImplementedException();
+		}
+
+		public object Clone()
+		{
+			NeuralLayer<T> ret = new NeuralLayer<T>();
+			for (int i = 0; i < NodeCount; i++)
+			{
+				ret.addNode(nodes[i].Clone() as NeuralNode<T>);
+			}
+			if(outputs != null)
+				ret.outputs = outputs.Clone() as T[];
+			return ret;
 		}
 	}
 }

@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace GEN_NET
 {
-	public class NeuralNode<T>
+	public class NeuralNode<T> : ICloneable
 	{
 		public delegate T NeuralFunction(List<T> inputs);
 		public delegate T WeigthingFunction(T t, float w);
@@ -50,7 +50,17 @@ namespace GEN_NET
 
 		public override string ToString()
 		{
-			throw new NotImplementedException();
+			return "Output: " + output;
+		}
+
+		public virtual object Clone()
+		{
+			var ret = new NeuralNode<T>();
+			ret.neuralFunction = neuralFunction;
+			ret.weigthingFunction = weigthingFunction;
+			ret.InputWeigths = InputWeigths.ToList();
+			ret.output = output;
+			return ret;
 		}
 
 		internal void setFinishedEvent(EventWaitHandle ewh)
